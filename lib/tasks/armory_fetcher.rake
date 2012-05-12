@@ -6,6 +6,6 @@ task :fetch => :environment do
   require 'open-uri'
 
   Character.all.each do |char|
-    char.fetch_armory(true)
+    char.fetch_armory(false)
   end
 end

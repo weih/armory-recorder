@@ -22,6 +22,7 @@ class Character < ActiveRecord::Base
       end
 
       remove_sections(doc, "#header", "#footer", "#service")
+      remove_js(doc)
       final_page = fix_url(doc)
       target_path, file_path =  make_path
 
@@ -51,6 +52,10 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def remove_js(doc)
+    doc.css("script").remove
+  end
+
   def already_lastest?(last_update)
     year_month_day = last_update.split('/').map(&:to_i)
     last_update_from_page = Date.new(year_month_day[0], year_month_day[1], year_month_day[2])
@@ -58,6 +63,8 @@ class Character < ActiveRecord::Base
   end
 
   def fix_url(doc)
+    doc.at_css('link').remove
+
     doc.css('a').each do |a|
       a['href'] = "http://www.battlenet.com.cn" + a['href']
     end

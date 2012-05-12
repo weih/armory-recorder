@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+# source "http://gems.gzruby.org/"
 
 gem 'rails', '3.2.2'
 
@@ -22,7 +23,7 @@ group :assets do
 end
 
 gem 'thin'
-
+gem 'therubyracer'
 gem 'jquery-rails'
 gem 'bourbon'
 gem 'slim-rails'
@@ -49,10 +50,10 @@ end
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+# deploy with Capistrano
+gem 'capistrano'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'

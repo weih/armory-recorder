@@ -13,7 +13,7 @@ GIT
       sass
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://gems.gzruby.org/
   specs:
     actionmailer (3.2.2)
       actionpack (= 3.2.2)
@@ -47,6 +47,12 @@ GEM
     bourbon (1.4.0)
       sass (>= 3.1)
     builder (3.0.0)
+    capistrano (2.9.0)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
     chosen-rails (0.9.8)
       railties (~> 3.0)
       thor (~> 0.14)
@@ -83,6 +89,7 @@ GEM
       multi_json (~> 1.0)
     guard-rspec (0.7.0)
       guard (>= 0.10.0)
+    highline (1.6.8)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.3)
@@ -90,6 +97,8 @@ GEM
       railties (>= 3.2.0, < 5.0)
       thor (~> 0.14)
     json (1.7.0)
+    kgio (2.6.0)
+    libv8 (3.3.10.4)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -97,6 +106,13 @@ GEM
     method_source (0.7.1)
     mime-types (1.18)
     multi_json (1.3.4)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.2.1)
+    net-ssh-gateway (1.1.0)
+      net-ssh (>= 1.99.1)
     nokogiri (1.5.0)
     polyglot (0.3.3)
     pry (0.9.9.4)
@@ -125,6 +141,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.6)
+    raindrops (0.8.0)
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
@@ -164,6 +181,8 @@ GEM
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.6)
     temple (0.4.0)
+    therubyracer (0.9.10)
+      libv8 (~> 3.3.10)
     thin (1.3.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -177,6 +196,10 @@ GEM
     uglifier (1.2.4)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
+    unicorn (4.1.1)
+      kgio (~> 2.4)
+      rack
+      raindrops (~> 0.6)
     whenever (0.7.3)
       activesupport (>= 2.3.4)
       chronic (~> 0.6.3)
@@ -187,6 +210,7 @@ PLATFORMS
 DEPENDENCIES
   anjlab-bootstrap-rails!
   bourbon
+  capistrano
   chosen-rails
   coffee-rails (~> 3.2.1)
   factory_girl_rails
@@ -203,6 +227,8 @@ DEPENDENCIES
   simple_form
   slim-rails
   sqlite3
+  therubyracer
   thin
   uglifier (>= 1.0.3)
+  unicorn
   whenever
