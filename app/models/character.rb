@@ -85,8 +85,8 @@ class Character < ActiveRecord::Base
     y, m, d = t.year, t.month, t.day
 
     FileUtils.makedirs("public/zh/#{server}/#{name}/#{y}/#{m}")
-    target_path = "/zh/#{server}/#{name}/#{y}/#{m}/#{d}.html"
-    [target_path, "public" + target_path]
+    target_path = "/zh/#{server}/#{name}/#{y}/#{m}/#{d}"
+    [target_path, "public" + target_path + ".html"]
   end
 
   def make_new_history(doc, target_path, last_update)  
