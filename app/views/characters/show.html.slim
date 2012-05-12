@@ -1,0 +1,6 @@
+.box
+  h1 = @char.name
+  h3 = @char.last_update
+  h3 = @char.histories_count
+.box
+  == render :partial => 'collapse', :locals => { :char => @char }

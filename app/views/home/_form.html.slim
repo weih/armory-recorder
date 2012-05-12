@@ -1,0 +1,6 @@
+= simple_form_for @char, defaults: { required: false }, :html => { :class => 'form-inline' } do |f|
+  = f.input :server, :collection => REALM::SERVER, :label => false, :as => :grouped_select, :group_method => :last
+  = f.input :name, :label => false, :placeholder => "Character"
+  .control-group
+    .controls
+      = f.button :submit, "Search"

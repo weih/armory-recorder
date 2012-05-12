@@ -1,0 +1,25 @@
+// Place all the styles related to the characters controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.accordion {
+  .accordion-group {
+    border: 2px solid lighten($backgroud-color, 20%);
+    .accordion-inner {
+      border-top: 2px solid lighten($backgroud-color, 20%);
+      @include clearfix;
+      ul {
+        float: left;
+        margin: 0 25px 0 0;
+        li {
+          list-style: none;
+        }
+      }
+    }
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

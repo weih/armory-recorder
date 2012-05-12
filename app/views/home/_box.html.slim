@@ -1,0 +1,13 @@
+header
+  h2 = title
+section
+  ul
+    - chars.each do |char|
+      li
+        span.server
+          strong = char.server
+        span.race[class="#{char.klass_color}"] = char.race
+        span.klass[class="#{char.klass_color}"] = char.klass
+        = link_to char.name, char
+        -if defined? desc_partial
+          == render :partial => "#{desc_partial}", :locals => { :char => char }

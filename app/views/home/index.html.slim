@@ -1,0 +1,15 @@
+.form
+  .box
+    section
+      = render 'form'
+
+.row
+  .span4
+    .box
+      == render :partial => 'box', :locals => { :chars => @new_chars, :title => "最新登记角色" }
+  .span4
+    .box
+      == render :partial => 'box', :locals => { :chars => @active_chars, :title => "最活跃角色" , :desc_partial => "histories"}
+  .span4
+    .box
+      == render :partial => 'box', :locals => { :chars => @leveling_chars, :title => "成长中角色", :desc_partial => "level" }

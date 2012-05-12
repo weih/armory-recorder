@@ -1,0 +1,128 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$base-font-size: 14px;
+$backgroud-color: #2B2B2B;
+
+html {
+  font-size: 100%;
+}
+
+body {
+  color: #F7F7F7;
+//  background-image: url("tasky_pattern.png");
+  background: url("wow4.jpg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  padding: 20px 0 30px 0;
+//  background-repeat: repeat;
+  font-family: 微软雅黑, "Microsoft YaHei", Helvetica, Tahoma, StSun, 宋体, SimSun, sans-serif;
+}
+
+section {
+    padding-top: 20px;
+}
+
+.wrapper {
+  .logo {
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    header {
+      h1 {
+        font-size: 45px;
+        color: rgb(200, 50, 50);
+        display: inline-block;
+      }
+      h3 {
+        padding-left: 303px;
+        display: inline-block;
+        color: #F7F7F7;
+      }
+    }
+  }
+  .form {
+    margin-bottom: 20px;
+    text-align: center;
+    .control-group {
+      display: inline-block;
+      margin-right: 5px;
+      #bgan_call_imsi {
+        width: 500px;
+      }
+    }
+    ul.chzn-results {
+      text-align: left;
+      color: #333;
+    }
+    .chzn-default {
+      height: 26px;
+    }
+    #character_name {
+      width: 450px;
+    }
+  }
+}
+
+.box {
+  background: rgba(#2B2B2B, .8);
+  font-size: $base-font-size;
+  @include border-radius(3px);
+  padding: 10px;
+  margin-bottom: 20px;
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  h2 {
+    text-align: center;
+    font-size: 28px;
+  }
+  p {
+    text-align: justify;
+  }
+  ul {
+    list-style: none;
+    margin-left: 0;
+  }
+  span {
+    margin-right: 5px;
+    &.right {
+      float: right;
+    }
+  }
+}
+
+footer {
+  ul {
+    li {
+      float: left;
+      line-height: 14px;
+      border-left: 2px solid lighten(#2B2B2B, 30%);
+      padding: 0 10px;
+      &:first-child {
+        border-left: none;
+      }
+      &:last-child {
+        border-left: none;
+      }
+    }
+    margin-bottom: 0;
+    @include clearfix;
+  }
+}
+
+/* class */
+.color-c1,  .color-c1 a { color: #c69b6d !important; } /* warrior */
+.color-c2,  .color-c2 a { color: #f48cba !important; } /* paladin */
+.color-c3,  .color-c3 a, .color-g2 { color: #aad372 !important; } /* hunter */
+.color-c4,  .color-c4 a, .color-g1 { color: #fff468 !important; } /* rogue */
+.color-c5,  .color-c5 a { color: #f0ebe0 !important; } /* priest */
+.color-c6,  .color-c6 a { color: #c41e3b !important; } /* death knight */
+.color-c7,  .color-c7 a { color: #2359ff !important; } /* shaman */
+.color-c8,  .color-c8 a, .color-g3 { color: #68ccef !important; } /* mage */
+.color-c9,  .color-c9 a { color: #9382c9 !important; } /* warlock */
+.color-c11, .color-c11 a, .color-g4 { color: #ff7c0a !important; } /* druid */

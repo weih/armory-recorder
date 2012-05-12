@@ -1,0 +1,25 @@
+@import "bourbon";
+
+@import "bootstrap";
+@import "responsive";
+/* @import "variables.scss"; // Modify this for custom colors, font-sizes, etc */
+/* @import "mixins.scss"; */
+
+/* // CSS Reset */
+/* @import "reset.scss"; */
+
+/* // Grid system and page structure */
+/* @import "scaffolding.scss"; */
+/* @import "grid.scss"; */
+/* @import "layouts.scss"; */
+
+/* // Base CSS */
+/* @import "type.scss"; */
+/* @import "code.scss"; */
+
+/* @import "responsive"; */
+
+// Rails css
+@import "chosen";
+@import "home";
+@import "characters";
