@@ -13,7 +13,7 @@ GIT
       sass
 
 GEM
-  remote: http://gems.gzruby.org/
+  remote: https://rubygems.org/
   specs:
     actionmailer (3.2.2)
       actionpack (= 3.2.2)
@@ -106,6 +106,7 @@ GEM
     method_source (0.7.1)
     mime-types (1.18)
     multi_json (1.3.4)
+    mysql2 (0.3.11)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -179,7 +180,6 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sqlite3 (1.3.6)
     temple (0.4.0)
     therubyracer (0.9.10)
       libv8 (~> 3.3.10)
@@ -218,6 +218,7 @@ DEPENDENCIES
   guard-livereload
   guard-rspec
   jquery-rails
+  mysql2
   nokogiri
   pry
   quiet_assets!
@@ -226,7 +227,6 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   simple_form
   slim-rails
-  sqlite3
   therubyracer
   thin
   uglifier (>= 1.0.3)
