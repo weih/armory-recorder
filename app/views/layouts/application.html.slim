@@ -10,6 +10,13 @@ html
     .container
       .wrapper
         = notice_message
-        == render 'layouts/header'
+        .row
+          .span4
+            == render 'layouts/header'
+          .span8
+            .form
+              .box
+                section
+                  = render 'home/form'
         = yield
         == render 'layouts/footer'

@@ -51,6 +51,7 @@ section {
     }
   }
   .form {
+    height: 115px;
     margin-bottom: 20px;
     text-align: center;
     .control-group {
@@ -68,7 +69,7 @@ section {
       height: 26px;
     }
     #character_name {
-      width: 450px;
+      width: 300px;
     }
   }
   img.thumb {
