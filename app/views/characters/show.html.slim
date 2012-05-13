@@ -4,4 +4,5 @@
   h3 = @char.last_update
   h3 = @char.histories_count
 .box
-  == render :partial => 'collapse', :locals => { :char => @char }
+  .details
+    == render :partial => 'collapse', :locals => { :char => @char }

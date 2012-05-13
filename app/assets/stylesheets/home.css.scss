@@ -10,12 +10,12 @@ html {
 
 body {
   color: #F7F7F7;
-//  background-image: url("tasky_pattern.png");
+ /* background-image: url("tasky_pattern.png"); */
   background: url("wow4.jpg");
   background-size: 100%;
   background-repeat: no-repeat;
   padding: 20px 0 30px 0;
-//  background-repeat: repeat;
+ background-repeat: repeat;
   font-family: "Microsoft YaHei", Helvetica, Tahoma, StSun, SimSun, sans-serif;
 }
 
@@ -25,19 +25,26 @@ section {
 
 .wrapper {
   .logo {
+    margin-bottom: 20px;
     a {
       &:hover {
         text-decoration: none;
       }
     }
     header {
+      .hell {
+        width: 400px;
+        @include border-radius(5px);
+      }
+      /* background: url("orc.jpg") no-repeat; */
+      /* text-indent: -9999px; */
       h1 {
-        font-size: 45px;
-        color: rgb(200, 50, 50);
+        font-size: 44px;
+        color: #E83015;
         display: inline-block;
       }
       h3 {
-        padding-left: 303px;
+        padding-left: 310px;
         display: inline-block;
         color: #F7F7F7;
       }
