@@ -21,7 +21,14 @@ ssh_options[:forward_agent] = true
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
 
 
-namespace :deploy do
+namespace :deploy do  
+  %w[start stop restart].each do |command|
+    desc "#{command} unicorn server"
+    task command, roles: :app, except: {no_release: true} do
+      run "/etc/init.d/unicorn_#{application} #{command}"
+    end
+  end
+
   task :setup_config, roles: :app do
     sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
     sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
@@ -37,6 +44,16 @@ namespace :deploy do
     end
   end
   before "deploy", "deploy:check_revision"
+
+  task :save_armory do
+    run "#{current_path}/public/zh #{shared_path}/zh"
+  end
+  before "deploy", "deploy:save_armory"
+
+  task :link_armory do
+    run "ln -s #{shared_path}/zh #{current_path}/public/zh"
+  end
+  after "deploy", "deploy:link_armory"
 end
 
 
