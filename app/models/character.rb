@@ -5,7 +5,7 @@ require 'open-uri'
 class Character < ActiveRecord::Base
   has_many :histories
 
-  default_scope limit(20)
+  default_scope limit(8)
 
   validates :name, :presence => true, :uniqueness => true
   validates :server, :presence => true
@@ -91,6 +91,7 @@ class Character < ActiveRecord::Base
 
   def make_new_history(doc, target_path, last_update)  
     histories << History.new(target_page: target_path)
+    self.thumbnail = "http://www.battlenet.com.cn/static-render/cn/" + API::BATTLENET.character(server, name)['thumbnail']
     self.race = doc.at_css(".race").text
     self.klass = doc.at_css(".class").text
     self.klass_color = doc.at_css(".under-name").attributes["class"].value.split.last

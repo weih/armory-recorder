@@ -64,6 +64,10 @@ section {
       width: 450px;
     }
   }
+  img.thumb {
+    margin-right: 5px;
+    @include border-radius(6px);
+  }
 }
 
 .box {
@@ -87,6 +91,16 @@ section {
   ul {
     list-style: none;
     margin-left: 0;
+  }
+  ul.char-list {
+    li {
+      @include clearfix;
+      margin-bottom: 12px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    margin-bottom: 0;
   }
   span {
     margin-right: 5px;
@@ -115,6 +129,9 @@ footer {
   }
 }
 
+.clearfix {
+  @include clearfix;
+}
 /* class */
 .color-c1,  .color-c1 a { color: #c69b6d !important; } /* warrior */
 .color-c2,  .color-c2 a { color: #f48cba !important; } /* paladin */

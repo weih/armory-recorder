@@ -1,13 +1,15 @@
 header
   h2 = title
 section
-  ul
+  ul.char-list
     - chars.each do |char|
       li
-        span.server
-          strong = char.server
-        span.race[class="#{char.klass_color}"] = char.race
-        span.klass[class="#{char.klass_color}"] = char.klass
-        = link_to char.name, char
+        = link_to char do
+          = image_tag "#{char.thumbnail}?alt=/wow/static/images/2d/avatar/1-0.jpg", size: "50x50", class: "pull-left thumb rounder"
+        span.pull-left.server = char.server
+        = link_to char.name, char, class: "pull-left"
+        br
+        span.pull-left.race[class="#{char.klass_color}"] = char.race
+        span.pull-left.klass[class="#{char.klass_color}"] = char.klass
         -if defined? desc_partial
           == render :partial => "#{desc_partial}", :locals => { :char => char }

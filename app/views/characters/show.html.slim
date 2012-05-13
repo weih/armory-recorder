@@ -1,4 +1,5 @@
 .box
+  = image_tag "#{@char.thumbnail}?alt=/wow/static/images/2d/avatar/1-0.jpg", class: "pull-left thumb"
   h1 = @char.name
   h3 = @char.last_update
   h3 = @char.histories_count
