@@ -21,6 +21,6 @@
 
 set :output, "#{path}/log/cron.log"
 
-every 1.day, :at => '11:20 am' do
+every 1.day, :at => '11:23 am' do
   rake "fetch"
 end
