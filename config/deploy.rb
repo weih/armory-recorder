@@ -46,7 +46,7 @@ namespace :deploy do
   before "deploy", "deploy:check_revision"
 
   task :save_armory do
-    run "cp -r #{current_path}/public/zh #{shared_path}/zh"
+    run "cp -r #{current_path}/public/zh #{shared_path}/"
   end
   before "deploy", "deploy:save_armory"
 
