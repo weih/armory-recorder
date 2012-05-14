@@ -45,10 +45,10 @@ namespace :deploy do
   end
   before "deploy", "deploy:check_revision"
 
-  task :save_armory do
-    run "cp -r #{current_path}/public/zh #{shared_path}/"
-  end
-  before "deploy", "deploy:save_armory"
+#  task :save_armory do
+#    run "cp -r #{current_path}/public/zh #{shared_path}/"
+#  end
+#  before "deploy", "deploy:save_armory"
 
   task :link_armory do
     run "ln -s #{shared_path}/zh #{current_path}/public/zh"
