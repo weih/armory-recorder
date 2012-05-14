@@ -90,7 +90,7 @@ class Character < ActiveRecord::Base
   end
 
   def make_new_history(doc, target_path, last_update)  
-    histories << History.new(target_page: target_path)
+    histories << History.new(target_page: target_path, record_at: last_update)
     self.thumbnail = "http://www.battlenet.com.cn/static-render/cn/" + API::BATTLENET.character(server, name)['thumbnail']
     self.race = doc.at_css(".race").text
     self.klass = doc.at_css(".class").text

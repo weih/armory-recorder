@@ -8,4 +8,4 @@
             - t.each_slice(5) do |array|
               ul
                 - array.each do |d|
-                  li = link_to d.created_at.strftime("%-m月%-d日"), d.target_page
+                  li = link_to d.record_at.strftime("%-m月%-d日"), d.target_page
