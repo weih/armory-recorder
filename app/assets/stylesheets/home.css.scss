@@ -88,8 +88,11 @@ section {
     #character_server_chzn {
       float: left;
       top: 19px;
+      span {
+        height: 26px;
+      }
     }
-    .chzn-default {
+    .chzn-default, .chzn-single {
       height: 26px;
     }
     #character_name {

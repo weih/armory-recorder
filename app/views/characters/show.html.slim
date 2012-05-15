@@ -2,7 +2,7 @@
   .span4
     == render 'layouts/header'
   .span8
-    - if flash.any?
+    - if flash[:notice]
       .box
         = notice_message
 
