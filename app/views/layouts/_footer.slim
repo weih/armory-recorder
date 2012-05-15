@@ -1,9 +1,10 @@
 footer
   .box
     ul
-      li = link_to "About", "#"
-      li = link_to "FAQ", "#"
-      li = link_to "留言簿", "#"
+      li = link_to "About", about_path
+      li = link_to "FAQ", faq_path
+      li = link_to "Changelog", changelog_path
+      li = link_to "留言簿", guestbook_path
       li.pull-right
         | 本站所有英雄榜数据皆来自于
         = link_to "魔兽世界（中国）", "http://www.battlenet.com.cn/wow/zh/"

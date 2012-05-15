@@ -7,4 +7,20 @@ class HomeController < ApplicationController
     @active_chars = Character.order("histories_count DESC")
     @leveling_chars = Character.where(leveling: true).order("histories_count DESC, level DESC")
   end
+
+  def about
+    
+  end
+
+  def faq
+    
+  end
+
+  def guestbook
+    
+  end
+
+  def changelog
+    
+  end
 end

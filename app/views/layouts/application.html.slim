@@ -10,13 +10,5 @@ html
     .container
       .wrapper
         = notice_message
-        .row
-          .span4
-            == render 'layouts/header'
-          .span8
-            .form
-              .box
-                section
-                  = render 'home/form'
         = yield
         == render 'layouts/footer'

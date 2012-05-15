@@ -1,5 +1,13 @@
 .row
   .span4
+    == render 'layouts/header'
+  .span8
+    .form
+      .box
+        section
+          = render 'form'
+.row
+  .span4
     .box
       == render :partial => 'box', :locals => { :chars => @new_chars, :title => "最新登记角色" }
   .span4

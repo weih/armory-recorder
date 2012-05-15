@@ -4,12 +4,15 @@
 
 .box {
   .details {
-    min-height: 100px;
+    min-height: 300px;
   }
 }
 
 .accordion {
   .accordion-group {
+    .accordion-toggle {
+      font-size: 16px;
+    }
     border: 2px solid lighten($backgroud-color, 20%);
     .accordion-inner {
       border-top: 2px solid lighten($backgroud-color, 20%);

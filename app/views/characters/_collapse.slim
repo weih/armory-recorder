@@ -1,11 +1,11 @@
 .accordion#accordion2
-  - char.histories.group_by{|t| "#{t.created_at.year} #{t.created_at.month}"}.each_with_index do |(date, t), i|
+  - char.histories.order("record_at DESC").group_by{|t| "#{t.record_at.year} #{t.record_at.month}"}.each_with_index do |(date, t), i|
     .accordion-group
       .accordion-heading
-        a.accordion-toggle data-toggle="collapse" data-parent="#accordion2" href="#collapse#{i+1}" = format_date(date)
-        .accordion-body.collapse[id="collapse#{i+1}" class="#{collapse_show?(i)}"]
-          .accordion-inner
-            - t.each_slice(5) do |array|
-              ul
-                - array.each do |d|
-                  li = link_to d.record_at.strftime("%-m月%-d日"), d.target_page
+        a.accordion-toggle data-toggle="collapse" data-parent="#accordion2" href="#collapse#{i+1}"= format_date(date)
+      .accordion-body.collapse[id="collapse#{i+1}" class="#{collapse_show?(i)}"]
+        .accordion-inner
+          - t.each_slice(5) do |array|
+            ul
+              - array.each do |d|
+                li = link_to d.record_at.strftime("%-m月%-d日"), d.target_page

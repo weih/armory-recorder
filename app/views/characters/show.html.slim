@@ -1,8 +1,17 @@
-.box
-  = image_tag "#{@char.thumbnail}?alt=/wow/static/images/2d/avatar/1-0.jpg", class: "pull-left thumb"
-  h1 = @char.name
-  h3 = @char.last_update
-  h3 = @char.histories_count
-.box
-  .details
-    == render :partial => 'collapse', :locals => { :char => @char }
+.row
+  .span4
+    == render 'layouts/header'
+
+.sidebar
+  .row
+    .span4
+      .box
+        = image_tag "#{@char.thumbnail}?alt=/wow/static/images/2d/avatar/2-0.jpg", class: "pull-left thumb"
+        h1 = @char.name
+        h3[class="#{@char.klass_color}"] = "#{@char.level} #{@char.race} #{@char.klass}, #{@char.server}"
+        h3.achievements = @char.achievements
+        p 最后更新于#{@char.last_update} 共计#{@char.histories_count}个英雄榜
+    .span8
+      .box
+        .details
+          == render :partial => 'collapse', :locals => { :char => @char }

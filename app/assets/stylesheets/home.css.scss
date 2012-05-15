@@ -50,8 +50,12 @@ section {
       }
     }
   }
+  #new_character {
+    /* float: left; */
+    /* @include clearfix; */
+  }
   .form {
-    height: 115px;
+    /* min-height: 92px; */
     margin-bottom: 20px;
     text-align: center;
     .control-group {
@@ -60,6 +64,12 @@ section {
       #bgan_call_imsi {
         width: 500px;
       }
+    }
+    .box {
+      min-height: 72px;
+    }
+    section {
+      padding-top: 0;
     }
     ul.chzn-results {
       text-align: left;
@@ -70,6 +80,23 @@ section {
     }
     #character_name {
       width: 300px;
+    }
+    form {
+      margin-bottom: 0;
+    }
+  }
+  .sidebar {
+    h1 {
+      font-size: 24px;
+      line-height: 24px;
+    }
+    h3 {
+      line-height: 20px;
+      &.achievements {
+        display: inline-block;
+        padding-left: 12px;
+        background: url("achievements.gif") left 7px no-repeat;
+      }
     }
   }
   img.thumb {
@@ -92,6 +119,9 @@ section {
   h2 {
     text-align: center;
     font-size: 28px;
+  }
+  h4.instruction {
+    margin-bottom: 10px;
   }
   p {
     text-align: justify;
