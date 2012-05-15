@@ -1,8 +1,12 @@
-h4.instruction 选择服务器后，输入角色名称
+/ h4.instruction 选择服务器后，输入角色名称
 
 = simple_form_for @char, defaults: { required: false }, :html => { :class => 'form-inline' } do |f|
   = f.input :server, :collection => REALM::SERVER, :label => false, :as => :grouped_select, :group_method => :last, :input_html => { "data-placeholder" => "选择角色所在服务器" }
   = f.input :name, :label => false, :placeholder => "输入角色名称"
   .control-group
     .controls
-      = f.button :submit, "Search"
+      = f.button :submit, "查看"
+- if flash.any?
+  = notice_message
+- else
+  p 首被查看的角色需要进行登记操作，该操作大约需要花费8-10秒的时间，请耐心等候

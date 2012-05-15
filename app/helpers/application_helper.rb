@@ -16,7 +16,7 @@ module ApplicationHelper
     flash.each do |type, message|
       type = :success if type == :notice
       type = :error if type == :alert
-      text = content_tag(:div, link_to("x", "#", :class => "close") + message, :class => "alert alert-#{type}")
+      text = content_tag(:p, message, :class => "#{type}")
       flash_messages << text if message
     end
 

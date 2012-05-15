@@ -1,6 +1,10 @@
 .row
   .span4
     == render 'layouts/header'
+  .span8
+    - if flash.any?
+      .box
+        = notice_message
 
 .sidebar
   .row

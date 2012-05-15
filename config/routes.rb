@@ -1,7 +1,6 @@
 Armory::Application.routes.draw do
   resources :characters
 
-  match 'about' => 'home#about', :as => 'about'
   match 'faq' => 'home#faq', :as => 'faq'
   match 'changelog' => 'home#changelog', :as => 'changelog'
   match 'guestbook' => 'home#guestbook', :as => 'guestbook'

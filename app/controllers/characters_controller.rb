@@ -18,8 +18,8 @@ class CharactersController < ApplicationController
 
       case res
       when '200'
-        logger.debug msg
-        redirect_to character_path(@new_char), notice: msg
+        # logger.debug msg
+        redirect_to character_path @new_char, notice: msg
       when '404'
         redirect_to root_path, alert: msg
       when '503'

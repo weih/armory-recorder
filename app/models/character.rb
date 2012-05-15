@@ -32,7 +32,7 @@ class Character < ActiveRecord::Base
       end
 
       make_new_history(doc, target_path, last_update)
-      ['200', 'Successful']
+      return ['200', 'Successful']
 
     rescue OpenURI::HTTPError => e
 #      logger.debug e.message
@@ -40,7 +40,7 @@ class Character < ActiveRecord::Base
         logger.debug e.message
         retry
       end
-      return e.message.start_with?('404') ? ['404', "Can't find Character"]: ['503', "You Character is freeze"]
+      return e.message.start_with?('404') ? ['404', "很抱歉，未找到角色您的角色，请检查您的角色名与服务器是否正确"]: ['503', "很抱歉，由于该角色长期未活动，已被冻结，无法记录"]
     end
   end
 

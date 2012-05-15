@@ -68,12 +68,26 @@ section {
     .box {
       min-height: 72px;
     }
+    p {
+      color: #C09853;
+      margin: 0;
+      line-height: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+    p.error {
+      color: #B94A48;
+    }
     section {
       padding-top: 0;
     }
     ul.chzn-results {
       text-align: left;
       color: #333;
+    }
+    #character_server_chzn {
+      float: left;
+      top: 19px;
     }
     .chzn-default {
       height: 26px;
@@ -121,7 +135,7 @@ section {
     font-size: 28px;
   }
   h4.instruction {
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
   }
   p {
     text-align: justify;
@@ -145,6 +159,36 @@ section {
     &.right {
       float: right;
     }
+  }
+}
+
+.faq {
+  .box {
+    padding: 20px;
+  }
+  header {
+    margin-top: 10px;
+    h1 {
+      font-size: 56px;
+    }
+  }
+  dl {
+    font-size: 16px;
+    line-height: 20px;
+    dt {
+      margin-bottom: 2px;
+    }
+    dd {
+      margin-left: 0px;
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.guestbook {
+  margin-bottom: 20px;
+  img {
+    @include border-radius(5px);
   }
 }
 
