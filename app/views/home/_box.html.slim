@@ -7,7 +7,7 @@ section
         = link_to char do
           = image_tag "#{char.thumbnail}?alt=/wow/static/images/2d/avatar/2-0.jpg", size: "50x50", class: "pull-left thumb rounder"
         span.pull-left.server = char.server
-        = link_to char.name, char, class: "pull-left"
+        strong = link_to char.name, char, class: "pull-left"
         br
         span.pull-left.race[class="#{char.klass_color}"] = char.race
         span.pull-left.klass[class="#{char.klass_color}"] = char.klass

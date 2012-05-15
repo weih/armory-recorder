@@ -3,11 +3,11 @@
 require 'open-uri'
 
 class Character < ActiveRecord::Base
-  has_many :histories
+  has_many :histories, :dependent => :destroy
 
   default_scope limit(8)
 
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :presence => true
   validates :server, :presence => true
 
   def fetch_armory(new_character)
@@ -32,7 +32,7 @@ class Character < ActiveRecord::Base
       end
 
       make_new_history(doc, target_path, last_update)
-      return ['200', 'Successful']
+      return ['200', '角色登记成功']
 
     rescue OpenURI::HTTPError => e
 #      logger.debug e.message

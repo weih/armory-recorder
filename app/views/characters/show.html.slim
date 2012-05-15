@@ -1,10 +1,12 @@
 .row
   .span4
     == render 'layouts/header'
-  .span8
-    - if flash[:notice]
-      .box
-        = notice_message
+  .successful
+    .span8
+      - if flash[:notice]
+        .box
+          h3 = notice_message
+          p 这是该角色第一次被查看，服务器已记录该角色，该角色的英雄榜将于每天早上7:00更新
 
 .sidebar
   .row
