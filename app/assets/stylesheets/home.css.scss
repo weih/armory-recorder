@@ -168,7 +168,7 @@ section {
 
 .faq {
   .box {
-    padding: 20px;
+    padding: 20px 20px 10px;
   }
   header {
     margin-top: 10px;
@@ -186,6 +186,12 @@ section {
       margin-left: 0px;
       margin-bottom: 16px;
     }
+  }
+  footer {
+    p {
+      margin-bottom: 0;
+    }
+    @include clearfix;
   }
 }
 
