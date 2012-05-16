@@ -4,6 +4,8 @@ html
     title 魔兽世界英雄榜记录器
     meta name="keywords" content="wow armory"
     = stylesheet_link_tag    "application", :media => "all"
+    /[ if lt IE 9 ]
+      link href='/iefix.css' media='screen' rel='stylesheet' type='text/css'
     = javascript_include_tag "application"
     = csrf_meta_tags
   body

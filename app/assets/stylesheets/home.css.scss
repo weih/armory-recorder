@@ -104,10 +104,11 @@ section {
   }
   .sidebar {
     h1 {
-      font-size: 24px;
+      font-size: 20px;
       line-height: 24px;
     }
     h3 {
+      font-size: 16px;
       line-height: 20px;
       &.achievements {
         display: inline-block;
@@ -176,7 +177,7 @@ section {
     }
   }
   dl {
-    font-size: 16px;
+    font-size: 13px;
     line-height: 20px;
     dt {
       margin-bottom: 2px;
