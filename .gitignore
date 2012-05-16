@@ -15,5 +15,6 @@
 /tmp
 /public/zh/*
 /.DS_Store
+/public/.DS_Store
 /Vagrantfile
 /.vagrant

@@ -215,6 +215,9 @@ footer {
       &:last-child {
         border-left: none;
       }
+      &.last-child {
+        border-left: none;
+      }
     }
     margin-bottom: 0;
     @include clearfix;

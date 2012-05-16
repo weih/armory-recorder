@@ -23,6 +23,7 @@ class Character < ActiveRecord::Base
 
       remove_sections(doc, "#header", "#footer", "#service")
       remove_js(doc)
+      get_profile_wrapper(doc)
       final_page = fix_url(doc)
       target_path, file_path =  make_path
 
@@ -77,7 +78,25 @@ class Character < ActiveRecord::Base
     end
 
   # replace background image
-    doc.to_s.sub!("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/")
+    doc.to_s.sub!("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/").sub!("http://www.battlenet.com.cn/static-render/cn", "/zh")
+  end
+
+  def get_profile_wrapper(doc)
+    profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(doc)[1]
+    url_array = profile_path.split('?')[0].split('/')
+    profile_name = url_array.last
+    dir = "public/zh/#{url_array[5]}/#{url_array[6]}/"
+#    logger.debug dir
+    FileUtils.makedirs(dir)
+    file_path = dir + profile_name
+    logger.debug file_path
+    open(profile_path) do |page|
+      logger.debug profile_path
+      File.open(file_path, "w") do |f|
+#        logger.debug file_path
+        f.write page.read.force_encoding("UTF-8")
+      end
+    end
   end
 
   def make_path
