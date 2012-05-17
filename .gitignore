@@ -18,3 +18,4 @@
 /public/.DS_Store
 /Vagrantfile
 /.vagrant
+/config/database.yml
