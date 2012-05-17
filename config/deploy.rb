@@ -45,6 +45,12 @@ namespace :deploy do
   end
   before "deploy", "deploy:check_revision"
 
+
+  task :symlink_config, roles: :app do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+  after "deploy:finalize_update", "deploy:symlink_config"
+
 #  task :save_armory do
 #    run "cp -r #{current_path}/public/zh #{shared_path}/"
 #  end
