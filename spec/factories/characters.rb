@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :character do
-    name "MyString"
-    server "MyString"
+    name "Bigdaddy"
+    server "AAA"
   end
 end

@@ -25,7 +25,7 @@ class Character < ActiveRecord::Base
       remove_js(doc)
       get_profile_wrapper(doc)
       final_page = fix_url(doc)
-      target_path, file_path =  make_path
+      target_path, file_path =  make_path(last_update)
 
     # doc.write_to(open(file_path, 'w'))
       File.open(file_path, "w") do |f|
@@ -99,16 +99,17 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def make_path
-    t  = Date.today
-    y, m, d = t.year, t.month, t.day
+  def make_path(last_update)
+    logger.debug last_update
+    last_update = Date.parse(last_update)
+    y, m, d = last_update.year, last_update.month, last_update.day
 
     FileUtils.makedirs("public/zh/#{server}/#{name}/#{y}/#{m}")
     target_path = "/zh/#{server}/#{name}/#{y}/#{m}/#{d}.html"
     [target_path, "public" + target_path]
   end
 
-  def make_new_history(doc, target_path, last_update)  
+  def make_new_history(doc, target_path, last_update)
     histories << History.new(target_page: target_path, record_at: last_update)
     self.thumbnail = "http://www.battlenet.com.cn/static-render/cn/" + API::BATTLENET.character(server, name)['thumbnail']
     self.race = doc.at_css(".race").text

@@ -43,6 +43,8 @@ group :development, :test do
   gem 'guard-livereload'
   gem 'factory_girl_rails'
   gem 'pry'
+  gem 'guard-spork'
+  gem 'spork'
 end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

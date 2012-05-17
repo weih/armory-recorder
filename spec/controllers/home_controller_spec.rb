@@ -9,4 +9,18 @@ describe HomeController do
     end
   end
 
+  describe "GET 'faq'" do
+    it "returns http success" do
+      get 'faq'
+      response.should be_success
+    end
+  end
+
+  describe "GET 'guestbook'" do
+    it "returns http success" do
+      get 'guestbook'
+      response.should be_success
+    end
+  end
+
 end
