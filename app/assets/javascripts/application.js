@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require chosen-jquery
 //= require bootstrap-collapse
+//= require bootstrap-button
 //= require_tree .

@@ -5,7 +5,7 @@
   = f.input :name, :label => false, :placeholder => "输入角色名称"
   .control-group
     .controls
-      = f.button :submit, "查看", :id => "search_char"
+      = f.button :submit, "查看", :id => "search_char", "data-loading-text" => "查询中..."
 - if flash.any?
   = notice_message
 - else
