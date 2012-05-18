@@ -4,3 +4,6 @@
 
 jQuery ->
     $('#character_server').chosen()
+
+    $("#new_character").submit ->
+      $("#search_char").val("查询中...")

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120514130147) do
+ActiveRecord::Schema.define(:version => 20120518113237) do
 
   create_table "characters", :force => true do |t|
     t.string   "name"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20120514130147) do
     t.integer  "character_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.string   "page"
     t.date     "record_at"
   end
 

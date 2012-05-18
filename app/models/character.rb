@@ -6,6 +6,9 @@ class Character < ActiveRecord::Base
   has_many :histories, :dependent => :destroy
 
   default_scope limit(8)
+  scope :new_char, order("created_at DESC")
+  scope :hot, order("histories_count DESC")
+  scope :leveling, where(leveling: true).order("histories_count DESC, level DESC")
 
   validates :name, :presence => true
   validates :server, :presence => true
@@ -18,30 +21,27 @@ class Character < ActiveRecord::Base
       # check last update first
       last_update = doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0]
       unless new_character
-        return ['304', 'Not Modifiy'] if already_lastest?(last_update)
+        return [304, 'Not Modifiy'] if already_lastest?(last_update)
       end
 
       remove_sections(doc, "#header", "#footer", "#service")
       remove_js(doc)
-      get_profile_wrapper(doc)
-      final_page = fix_url(doc)
+      set_profile_wrapper(doc)
       target_path, file_path =  make_path(last_update)
 
-    # doc.write_to(open(file_path, 'w'))
       File.open(file_path, "w") do |f|
-        f.write final_page
+        f.write fix_url(doc)
       end
 
       make_new_history(doc, target_path, last_update)
-      return ['200', '角色登记成功']
+
+      return [200, '角色登记成功']
 
     rescue OpenURI::HTTPError => e
-#      logger.debug e.message
       if e.message.start_with?('Timeout')
-        logger.debug e.message
         retry
       end
-      return e.message.start_with?('404') ? ['404', "很抱歉，未找到角色您的角色，请检查您的角色名与服务器是否正确"]: ['503', "很抱歉，由于该角色长期未活动，已被冻结，无法记录"]
+      return e.message.start_with?('404') ? [404, "很抱歉，未找到角色您的角色，请检查您的角色名与服务器是否正确"]: [503, "很抱歉，由于该角色长期未活动，已被冻结，无法记录"]
     end
   end
 
@@ -58,8 +58,7 @@ class Character < ActiveRecord::Base
   end
 
   def already_lastest?(last_update)
-    year_month_day = last_update.split('/').map(&:to_i)
-    last_update_from_page = Date.new(year_month_day[0], year_month_day[1], year_month_day[2])
+    last_update_from_page = Date.parse(last_update)
     self.last_update >= last_update_from_page
   end
 
@@ -71,9 +70,9 @@ class Character < ActiveRecord::Base
     end
 
   # replace css url
-    doc.css('link').each do |l|
-      if l['rel'] == 'stylesheet'
-        l['href'] = "http://www.battlenet.com.cn" + l['href']
+    doc.css('link').each do |link|
+      if link['rel'] == 'stylesheet'
+        link['href'] = "http://www.battlenet.com.cn" + link['href']
       end
     end
 
@@ -81,31 +80,28 @@ class Character < ActiveRecord::Base
     doc.to_s.sub!("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/").sub!("http://www.battlenet.com.cn/static-render/cn", "/zh")
   end
 
-  def get_profile_wrapper(doc)
+  def set_profile_wrapper(doc)
     profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(doc)[1]
     url_array = profile_path.split('?')[0].split('/')
     profile_name = url_array.last
     dir = "public/zh/#{url_array[5]}/#{url_array[6]}/"
-#    logger.debug dir
     FileUtils.makedirs(dir)
     file_path = dir + profile_name
-    logger.debug file_path
+
     open(profile_path) do |page|
-      logger.debug profile_path
       File.open(file_path, "w") do |f|
-#        logger.debug file_path
         f.write page.read.force_encoding("UTF-8")
       end
     end
   end
 
   def make_path(last_update)
-    logger.debug last_update
     last_update = Date.parse(last_update)
     y, m, d = last_update.year, last_update.month, last_update.day
 
     FileUtils.makedirs("public/zh/#{server}/#{name}/#{y}/#{m}")
     target_path = "/zh/#{server}/#{name}/#{y}/#{m}/#{d}.html"
+
     [target_path, "public" + target_path]
   end
 

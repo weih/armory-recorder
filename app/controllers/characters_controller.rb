@@ -17,14 +17,13 @@ class CharactersController < ApplicationController
       res, msg = @new_char.fetch_armory(true)
 
       case res
-      when '200'
+      when 200
         redirect_to @new_char, notice: msg
-      when '404'
+      when 404
         redirect_to root_path, alert: msg
-      when '503'
+      when 503
         redirect_to root_path, alert: msg
       end
-      # create char and fetch today's armory
     end
   end
 end
