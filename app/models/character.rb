@@ -19,18 +19,18 @@ class Character < ActiveRecord::Base
       doc = Nokogiri::HTML.parse(open(url), nil, "utf-8")
 
       # check last update first
-      last_update = doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0]
+      last_update = Date.parse(doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0])
       unless new_character
         return [304, 'Not Modifiy'] if already_lastest?(last_update)
       end
 
       remove_sections(doc, "#header", "#footer", "#service")
       remove_js(doc)
-      set_profile_wrapper(doc)
+      set_profile_wrapper(doc, last_update)
       target_path, file_path =  make_path(last_update)
 
       File.open(file_path, "w") do |f|
-        f.write fix_url(doc)
+        f.write fix_url(doc, last_update)
       end
 
       make_new_history(doc, target_path, last_update)
@@ -58,11 +58,11 @@ class Character < ActiveRecord::Base
   end
 
   def already_lastest?(last_update)
-    last_update_from_page = Date.parse(last_update)
-    self.last_update >= last_update_from_page
+    # last_update_from_page = Date.parse(last_update)
+    self.last_update >= last_update
   end
 
-  def fix_url(doc)
+  def fix_url(doc, last_update)
     doc.at_css('link').remove
 
     doc.css('a').each do |a|
@@ -77,14 +77,14 @@ class Character < ActiveRecord::Base
     end
 
   # replace background image
-    doc.to_s.sub!("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/").sub!("http://www.battlenet.com.cn/static-render/cn", "/zh")
+    doc.to_s.sub!("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/").sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(\w+)\/(\d+)/, "/zh/\\1/\\2/#{last_update.year}/#{last_update.month}")
   end
 
-  def set_profile_wrapper(doc)
+  def set_profile_wrapper(doc, last_update)
     profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(doc)[1]
     url_array = profile_path.split('?')[0].split('/')
     profile_name = url_array.last
-    dir = "public/zh/#{url_array[5]}/#{url_array[6]}/"
+    dir = "public/zh/#{url_array[5]}/#{url_array[6]}/#{last_update.year}/#{last_update.month}/"
     FileUtils.makedirs(dir)
     file_path = dir + profile_name
 
@@ -96,7 +96,7 @@ class Character < ActiveRecord::Base
   end
 
   def make_path(last_update)
-    last_update = Date.parse(last_update)
+    # last_update = Date.parse(last_update)
     y, m, d = last_update.year, last_update.month, last_update.day
 
     FileUtils.makedirs("public/zh/#{server}/#{name}/#{y}/#{m}")
