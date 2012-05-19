@@ -26,10 +26,15 @@ class Character < ActiveRecord::Base
         return [304, 'Not Modifiy'] if already_lastest?(last_update)
       end
 
+      logger.debug "Remove Start ......"
       remove_sections(doc, "#header", "#footer", "#service")
       remove_js(doc)
+      logger.debug "Remove End ......"
+
+      logger.debug "Path Start ......"
       set_profile_wrapper(doc, last_update)
       target_path, file_path =  make_path(last_update)
+      logger.debug "Path End ......"
       
       final_page = fix_url(doc, last_update)
 
