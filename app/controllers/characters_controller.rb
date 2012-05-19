@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
- caches_page :show
+  caches_page :show
 
   def show
     expires_in 1.hour, :private => false, :public => true

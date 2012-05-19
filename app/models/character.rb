@@ -51,7 +51,7 @@ class Character < ActiveRecord::Base
           f.write page.read.force_encoding("UTF-8")
         end
       end
-      logger.debug "Perpare Profile Write ......"
+      logger.debug "Perpare End Write ......"
 
       make_new_history(doc, target_path, last_update)
 
@@ -100,7 +100,11 @@ class Character < ActiveRecord::Base
     end
 
   # replace background image
-    doc.to_s.sub!("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/").sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(\w+)\/(\d+)/, "/zh/\\1/\\2/#{last_update.year}/#{last_update.month}")
+    page = doc.to_s.sub("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/")
+
+    page.sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(\w+)\/(\d+)/, "/zh/\\1/\\2/#{last_update.year}/#{last_update.month}")
+
+    page
   end
 
   def set_profile_wrapper(doc, last_update)
