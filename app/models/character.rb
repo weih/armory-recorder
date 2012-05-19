@@ -15,7 +15,9 @@ class Character < ActiveRecord::Base
   def fetch_armory(new_character)
     begin
       url = URI.escape("http://www.battlenet.com.cn/wow/zh/character/#{server}/#{name}/advanced")
+      logger.debug "Perpare to Nokogiri ......"
       doc = Nokogiri::HTML.parse(open(url), nil, "utf-8")
+      logger.debug "Nokogiri Completed ......"
 
       # check last update first
       last_update = Date.parse(doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0])
@@ -31,9 +33,11 @@ class Character < ActiveRecord::Base
       
       final_page = fix_url(doc, last_update)
 
+      logger.debug "Perpare File Write ......"
       File.open(file_path, "w") do |f|
         f.write final_page
       end
+      logger.debug "File Write Completed ......"
 
       make_new_history(doc, target_path, last_update)
 

@@ -1,6 +1,5 @@
 class CharactersController < ApplicationController
-  def index
-  end
+  caches_page :show
 
   def show
     @char = Character.find(params[:id])
