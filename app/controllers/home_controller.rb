@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  caches_page :faq, :guestbook
+  
   def index
     @char = Character.new
     @new_chars = Character.new_char
@@ -11,10 +13,10 @@ class HomeController < ApplicationController
   end
 
   def guestbook
-    
+    expires_in 1.hour, :private => false, :public => true
   end
 
   def changelog
-    
+    expires_in 1.hour, :private => false, :public => true
   end
 end
