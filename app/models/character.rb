@@ -32,7 +32,7 @@ class Character < ActiveRecord::Base
       logger.debug "Remove End ......"
 
       logger.debug "Path Start ......"
-      set_profile_wrapper(doc, last_update)
+      profile_path, profile_file_path = set_profile_wrapper(doc, last_update)
       target_path, file_path =  make_path(last_update)
       logger.debug "Path End ......"
       
@@ -43,6 +43,15 @@ class Character < ActiveRecord::Base
         f.write final_page
       end
       logger.debug "File Write Completed ......"
+
+
+      logger.debug "Perpare Profile Write ......"
+      open(profile_path) do |page|
+        File.open(profile_file_path, "w") do |f|
+          f.write page.read.force_encoding("UTF-8")
+        end
+      end
+      logger.debug "Perpare Profile Write ......"
 
       make_new_history(doc, target_path, last_update)
 
@@ -102,11 +111,7 @@ class Character < ActiveRecord::Base
     FileUtils.makedirs(dir)
     file_path = dir + profile_name
 
-    open(profile_path) do |page|
-      File.open(file_path, "w") do |f|
-        f.write page.read.force_encoding("UTF-8")
-      end
-    end
+    [profile_path, file_path]
   end
 
   def make_path(last_update)
