@@ -28,9 +28,11 @@ class Character < ActiveRecord::Base
       remove_js(doc)
       set_profile_wrapper(doc, last_update)
       target_path, file_path =  make_path(last_update)
+      
+      final_page = fix_url(doc, last_update)
 
       File.open(file_path, "w") do |f|
-        f.write fix_url(doc, last_update)
+        f.write final_page
       end
 
       make_new_history(doc, target_path, last_update)
@@ -38,6 +40,7 @@ class Character < ActiveRecord::Base
       return [200, '角色登记成功']
 
     rescue OpenURI::HTTPError => e
+      puts e.message
       logger.debug "Got a Message From character.rb : #{e.message}"
       if e.message.start_with?('Timeout')
         logger.debug "Got a Timeout Message character.rb : #{e.message}"
