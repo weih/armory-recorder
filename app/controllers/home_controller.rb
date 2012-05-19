@@ -9,14 +9,10 @@ class HomeController < ApplicationController
   end
 
   def faq
-    
+    expires_in 1.hour, :private => false, :public => true    
   end
 
   def guestbook
-    expires_in 1.hour, :private => false, :public => true
-  end
-
-  def changelog
     expires_in 1.hour, :private => false, :public => true
   end
 end
