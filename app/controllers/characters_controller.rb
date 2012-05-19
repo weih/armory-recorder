@@ -3,7 +3,6 @@ class CharactersController < ApplicationController
   end
 
   def show
-    logger.debug flash[:notice]
     @char = Character.find(params[:id])
   end
 

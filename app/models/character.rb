@@ -20,6 +20,7 @@ class Character < ActiveRecord::Base
 
       # check last update first
       last_update = Date.parse(doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0])
+      
       unless new_character
         return [304, 'Not Modifiy'] if already_lastest?(last_update)
       end
