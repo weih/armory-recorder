@@ -5,10 +5,9 @@ require 'open-uri'
 class Character < ActiveRecord::Base
   has_many :histories, :dependent => :destroy
 
-  default_scope limit(8)
-  scope :new_char, order("created_at DESC")
-  scope :hot, order("histories_count DESC")
-  scope :leveling, where(leveling: true).order("histories_count DESC, level DESC")
+  scope :new_char, order("created_at DESC").limit(8)
+  scope :hot, order("histories_count DESC").limit(8)
+  scope :leveling, where(leveling: true).order("histories_count DESC, level DESC").limit(8)
 
   validates :name, :presence => true
   validates :server, :presence => true
@@ -39,7 +38,9 @@ class Character < ActiveRecord::Base
       return [200, '角色登记成功']
 
     rescue OpenURI::HTTPError => e
+      logger.debug "Got a Message From character.rb : #{e.message}"
       if e.message.start_with?('Timeout')
+        logger.debug "Got a Timeout Message character.rb : #{e.message}"
         retry
       end
       return e.message.start_with?('404') ? [404, "很抱歉，未找到角色您的角色，请检查您的角色名与服务器是否正确"]: [503, "很抱歉，由于该角色长期未活动，已被冻结，无法记录"]
