@@ -134,6 +134,9 @@ class Character < ActiveRecord::Base
     self.thumbnail = "http://www.battlenet.com.cn/static-render/cn/" + API::BATTLENET.character(server, name)['thumbnail']
     self.race = doc.at_css(".race").text
     self.klass = doc.at_css(".class").text
+    if guild = doc.at_css(".guild")
+      self.guild = guild.text
+    end
     self.klass_color = doc.at_css(".under-name").attributes["class"].value.split.last
     self.level = doc.at_css(".level").text.to_i
     self.leveling = false if self.level == 85

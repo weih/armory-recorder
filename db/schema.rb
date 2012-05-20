@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120520085337) do
+ActiveRecord::Schema.define(:version => 20120520092211) do
 
   create_table "characters", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20120520085337) do
     t.integer  "achievements",    :default => 0
     t.integer  "histories_count", :default => 0
     t.string   "thumbnail"
+    t.string   "guild"
   end
 
   add_index "characters", ["name", "server"], :name => "index_characters_on_name_and_server"

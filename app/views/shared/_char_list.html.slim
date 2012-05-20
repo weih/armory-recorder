@@ -8,3 +8,5 @@ li
   span.pull-left.klass[class="#{char.klass_color}"] = char.klass
   -if desc_partial
     == render :partial => desc_partial, :locals => { :char => char }
+  br
+  span = char.guild
