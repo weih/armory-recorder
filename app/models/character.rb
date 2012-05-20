@@ -103,7 +103,7 @@ class Character < ActiveRecord::Base
   # replace background image
     page = doc.to_s.sub("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/")
 
-    page.sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(\w+)\/(\d+)/, "/zh/\\1/\\2/#{last_update.year}/#{last_update.month}")
+    page.sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(\w+)\/(\d+)/, "/zh/\\1/\\2/#{last_update.year}/#{last_update.month}/#{last_update.day}")
 
     page
   end
@@ -112,7 +112,7 @@ class Character < ActiveRecord::Base
     profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(doc)[1]
     url_array = profile_path.split('?')[0].split('/')
     profile_name = url_array.last
-    dir = "public/zh/#{url_array[5]}/#{url_array[6]}/#{last_update.year}/#{last_update.month}/"
+    dir = "public/zh/#{url_array[5]}/#{url_array[6]}/#{last_update.year}/#{last_update.month}/#{last_update.day}/"
     FileUtils.makedirs(dir)
     file_path = dir + profile_name
 
