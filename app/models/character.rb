@@ -110,13 +110,15 @@ class Character < ActiveRecord::Base
 
   def set_profile_wrapper(doc, last_update)
     profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(doc)[1]
-    url_array = profile_path.split('?')[0].split('/')
+    image_url = profile_path.split('?')[0]
+    logger.debug image_url
+    url_array = image_url.split('/')
     profile_name = url_array.last
     dir = "public/zh/#{url_array[5]}/#{url_array[6]}/#{last_update.year}/#{last_update.month}/#{last_update.day}/"
     FileUtils.makedirs(dir)
     file_path = dir + profile_name
 
-    [profile_path, file_path]
+    [image_url, file_path]
   end
 
   def make_path(last_update)
