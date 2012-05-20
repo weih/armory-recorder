@@ -7,7 +7,7 @@ class Character < ActiveRecord::Base
 
   scope :new_char, order("created_at DESC").limit(8)
   scope :hot, order("histories_count DESC").limit(8)
-  scope :leveling, where(leveling: true).order("histories_count DESC, level DESC").limit(8)
+  scope :leveling, where(leveling: true).order("histories_count DESC, level DESC")
   scope :same_server, lambda { |char| where(server: char.server).order("last_update DESC") }
 
   validates :name, :presence => true

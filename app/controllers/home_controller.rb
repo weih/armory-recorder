@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @char = Character.new
     @new_chars = Character.new_char
     @active_chars = Character.hot
-    @leveling_chars = Character.leveling
+    @leveling_chars = Character.leveling.all.sample(8)
   end
 
   def faq
