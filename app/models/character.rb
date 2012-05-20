@@ -137,7 +137,7 @@ class Character < ActiveRecord::Base
     self.race = doc.at_css(".race").text
     self.klass = doc.at_css(".class").text
     if guild = doc.at_css(".guild")
-      self.guild = guild.text
+      self.guild = guild.text.strip
     end
     self.klass_color = doc.at_css(".under-name").attributes["class"].value.split.last
     self.level = doc.at_css(".level").text.to_i
