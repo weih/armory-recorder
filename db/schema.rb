@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120519031444) do
+ActiveRecord::Schema.define(:version => 20120520085337) do
 
   create_table "characters", :force => true do |t|
     t.string   "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20120519031444) do
   end
 
   add_index "characters", ["name", "server"], :name => "index_characters_on_name_and_server"
+  add_index "characters", ["server"], :name => "index_characters_on_server"
 
   create_table "histories", :force => true do |t|
     t.string   "target_page"

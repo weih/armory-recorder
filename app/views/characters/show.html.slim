@@ -17,6 +17,14 @@
         h3[class="#{@char.klass_color}"] = "#{@char.level} #{@char.race} #{@char.klass}, #{@char.server}"
         h3.achievements = @char.achievements
         p 最后更新于#{@char.last_update} 共计#{@char.histories_count}个英雄榜
+      - if @chars_same_server.any?
+        .box
+          header
+            h2 同服务器角色
+          section
+            ul.char-list
+              - @chars_same_server.each do |char|
+                == render :partial => "shared/char_list", :locals => { :char => char, :desc_partial => nil }
     .span8
       .box
         .details

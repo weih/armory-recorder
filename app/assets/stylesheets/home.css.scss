@@ -211,6 +211,10 @@ footer {
       line-height: 14px;
       border-left: 2px solid lighten(#2B2B2B, 30%);
       padding: 0 10px;
+      &.count {
+        font-weight: bold;
+        color: #338554;
+      }
       &:first-child {
         border-left: none;
       }

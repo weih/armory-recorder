@@ -4,6 +4,7 @@ class CharactersController < ApplicationController
   def show
     expires_in 1.hour, :private => false, :public => true
     @char = Character.find(params[:id])
+    @chars_same_server = Character.same_server(@char).all - [@char]
   end
 
   def create
