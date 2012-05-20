@@ -9,4 +9,4 @@ li
   -if desc_partial
     == render :partial => desc_partial, :locals => { :char => char }
   br
-  span = char.guild.slice(0, 20) if char.guild
+  span.guild = char.guild.slice(0, 20) if char.guild
