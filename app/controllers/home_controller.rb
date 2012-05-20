@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
-  caches_page :faq, :guestbook
+  caches_page :faq, :guestbook, :expires_in => 1.hours
+  caches_page :index, :expires_in => 5.minutes
   
   def index
     @char = Character.new
@@ -9,10 +10,8 @@ class HomeController < ApplicationController
   end
 
   def faq
-    expires_in 1.hour, :private => false, :public => true    
   end
 
   def guestbook
-    expires_in 1.hour, :private => false, :public => true
   end
 end

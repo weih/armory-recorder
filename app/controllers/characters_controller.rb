@@ -1,8 +1,7 @@
 class CharactersController < ApplicationController
-  caches_page :show
+  caches_page :show, :expires_in => 1.hours
 
   def show
-    expires_in 1.hour, :private => false, :public => true
     @char = Character.find(params[:id])
     
     @chars_same_server = Character.same_server(@char).all.sample(6) - [@char]
@@ -25,6 +24,7 @@ class CharactersController < ApplicationController
       when 503
         redirect_to root_path, alert: msg
       end
+      expire_page root_path
     end
   end
 end
