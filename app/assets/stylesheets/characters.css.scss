@@ -20,6 +20,22 @@
   
 }
 
+.sidebar {
+  h1 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  h3 {
+    font-size: 16px;
+    line-height: 20px;
+    &.achievements {
+      display: inline-block;
+      padding-left: 12px;
+      background: url("achievements.gif") left 7px no-repeat;
+    }
+  }
+}
+
 .accordion {
   .accordion-group {
     .accordion-toggle {

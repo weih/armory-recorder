@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   def index
     @char = Character.new
     @new_chars = Character.new_char
-    @active_chars = Character.hot
+    @random_chars = Character.random_char.all.sample(8)
     @leveling_chars = Character.leveling.all.sample(8)
   end
 

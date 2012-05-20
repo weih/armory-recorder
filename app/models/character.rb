@@ -6,7 +6,7 @@ class Character < ActiveRecord::Base
   has_many :histories, :dependent => :destroy
 
   scope :new_char, order("created_at DESC").limit(8)
-  scope :hot, order("histories_count DESC").limit(8)
+  scope :random_char, where(leveling: false).order("histories_count DESC")
   scope :leveling, where(leveling: true).order("histories_count DESC, level DESC")
   scope :same_server, lambda { |char| where(server: char.server).order("last_update DESC") }
 
