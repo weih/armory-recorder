@@ -4,7 +4,7 @@ class CharactersController < ApplicationController
   def show
     @char = Character.find(params[:id])
     
-    @chars_same_server = Character.same_server(@char).all.sample(6) - [@char]
+    @chars_same_server = Rails.cache.fetch("chars_same_server", :expire_in => 3.hours) { Character.same_server(@char).all }.sample(6) - [@char]
   end
 
   def create
@@ -16,6 +16,11 @@ class CharactersController < ApplicationController
       @new_char = Character.new(params[:character])
       res, msg = @new_char.fetch_armory(true)
 
+#      expire_page root_path
+      expire_fragment "form"
+      expire_fragment "new_chars"
+      expire_fragment "footer"
+
       case res
       when 200
         redirect_to @new_char, notice: msg
@@ -24,7 +29,6 @@ class CharactersController < ApplicationController
       when 503
         redirect_to root_path, alert: msg
       end
-      expire_page root_path
     end
   end
 end

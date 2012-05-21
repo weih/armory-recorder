@@ -16,4 +16,5 @@ html
     .container
       .wrapper
         = yield
-        == render 'layouts/footer'
+        - cache "footer" do
+          == render 'layouts/footer'

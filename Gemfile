@@ -34,6 +34,7 @@ gem 'simple_form'
 gem 'chosen-rails'
 gem 'whenever', require: false
 gem 'battlenet'
+gem 'dalli'
 
 group :development, :test do
   gem 'quiet_assets', :git => 'git://github.com/AgilionApps/quiet_assets.git'
