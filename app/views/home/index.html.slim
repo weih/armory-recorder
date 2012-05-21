@@ -11,9 +11,10 @@
     .span4
       .box
         == render :partial => 'box', :locals => { :chars => @new_chars, :title => "最新登记角色" , :desc_partial => nil }
-  .span4
-    .box
-      == render :partial => 'box', :locals => { :chars => @leveling_chars, :title => "成长中角色", :desc_partial => "level" }
-  .span4
-    .box
-      == render :partial => 'box', :locals => { :chars => @random_chars, :title => "随便看看", :desc_partial => "random" }
+  - cache "leveling_random", :expires_in => 3.minutes do
+    .span4
+      .box
+        == render :partial => 'box', :locals => { :chars => @leveling_chars, :title => "成长中角色", :desc_partial => "level" }
+    .span4
+      .box
+        == render :partial => 'box', :locals => { :chars => @random_chars, :title => "随便看看", :desc_partial => "random" }
