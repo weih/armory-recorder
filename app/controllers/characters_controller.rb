@@ -19,6 +19,7 @@ class CharactersController < ApplicationController
 #      expire_page root_path
       expire_fragment "form"
       expire_fragment "new_chars"
+      expire_fragment "leveling_random"
       expire_fragment "footer"
 
       case res

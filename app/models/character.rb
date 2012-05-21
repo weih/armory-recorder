@@ -16,9 +16,7 @@ class Character < ActiveRecord::Base
   def fetch_armory(new_character)
     begin
       url = URI.escape("http://www.battlenet.com.cn/wow/zh/character/#{server}/#{name}/advanced")
-      logger.debug "Perpare to Nokogiri ......"
       doc = Nokogiri::HTML.parse(open(url), nil, "utf-8")
-      logger.debug "Nokogiri Completed ......"
 
       # check last update first
       last_update = Date.parse(doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0])
@@ -27,32 +25,17 @@ class Character < ActiveRecord::Base
         return [304, 'Not Modifiy'] if already_lastest?(last_update)
       end
 
-      logger.debug "Remove Start ......"
       remove_sections(doc, "#header", "#footer", "#service")
       remove_js(doc)
-      logger.debug "Remove End ......"
 
-      logger.debug "Path Start ......"
       profile_path, profile_file_path = set_profile_wrapper(doc, last_update)
       target_path, file_path =  make_path(last_update)
-      logger.debug "Path End ......"
       
       final_page = fix_url(doc, last_update)
 
-      logger.debug "Perpare File Write ......"
       File.open(file_path, "w") do |f|
         f.write final_page
       end
-      logger.debug "File Write Completed ......"
-
-
-      logger.debug "Perpare Profile Write ......"
-      open(profile_path) do |page|
-        File.open(profile_file_path, "w") do |f|
-          f.write page.read.force_encoding("UTF-8")
-        end
-      end
-      logger.debug "Perpare End Write ......"
 
       make_new_history(doc, target_path, last_update)
 
@@ -117,8 +100,37 @@ class Character < ActiveRecord::Base
     dir = "public/zh/#{url_array[5]}/#{url_array[6]}/#{last_update.year}/#{last_update.month}/#{last_update.day}/"
     FileUtils.makedirs(dir)
     file_path = dir + profile_name
+    
+    image_url += "?alt=/wow/static/images/2d/profilemain/race/2-0.jpg"
+    fetch_profile_image(image_url, file_path)
+  end
 
-    [image_url, file_path]
+  def fetch_profile_image(profile_path, file_path)
+    image_sha = ""
+    times = 0
+    page = ""
+
+    open(profile_path) do |f|
+      page = f.read
+      image_sha = Digest::SHA1.hexdigest(page)
+    end
+    
+    logger.debug image_sha
+    logger.debug API::DEFAULT_ORC_IMAGE_HASH
+
+    while (API::DEFAULT_ORC_IMAGE_HASH == image_sha) & (times < 15)
+      logger.debug "Refetch Image Start, Now iamge_sha is: #{image_sha}"
+      open(profile_path) do |f|
+        page = f.read
+        image_sha = Digest::SHA1.hexdigest(page)          
+      end
+      times += 1
+      logger.debug "Refetch Image End, Now iamge_sha is: #{image_sha}"
+    end
+    
+    File.open(file_path, "w") do |f|
+      f.write page.force_encoding("UTF-8")
+    end
   end
 
   def make_path(last_update)
