@@ -28,7 +28,7 @@ class Character < ActiveRecord::Base
       remove_sections(doc, "#header", "#footer", "#service")
       remove_js(doc)
 
-      profile_path, profile_file_path = set_profile_wrapper(doc, last_update)
+      set_profile_wrapper(doc, last_update)
       target_path, file_path =  make_path(last_update)
       
       final_page = fix_url(doc, last_update)
@@ -86,7 +86,7 @@ class Character < ActiveRecord::Base
   # replace background image
     page = doc.to_s.sub("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/")
 
-    page.sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(\w+)\/(\d+)/, "/zh/\\1/\\2/#{last_update.year}/#{last_update.month}/#{last_update.day}")
+    page.sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(.+?)\/(\d+)/, "/zh/\\1/\\2/#{last_update.year}/#{last_update.month}/#{last_update.day}")
 
     page
   end
