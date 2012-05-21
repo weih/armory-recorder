@@ -4,7 +4,7 @@ class CharactersController < ApplicationController
   def show
     @char = Character.find(params[:id])
     
-    @chars_same_server = Rails.cache.fetch("chars_same_server", :expire_in => 3.hours) { Character.same_server(@char).all }.sample(6) - [@char]
+    @chars_same_server = Character.same_server(@char).all.sample(6) - [@char]
   end
 
   def create
