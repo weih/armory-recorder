@@ -75,8 +75,8 @@ module Armory
       domain: "wowarmory.me",
       authentication: "plain",
       enable_starttls_auto: true,
-      user_name: "xiaohaoprog",
-      password: "weimang9510"
+      user_name: ENV["GMAIL_USERNAME"],
+      password: ENV["GMAIL_PASSWORD"]
     }
   end
 end
