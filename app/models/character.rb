@@ -119,7 +119,7 @@ class Character < ActiveRecord::Base
     logger.debug image_sha
     logger.debug API::DEFAULT_ORC_IMAGE_HASH
 
-    while (API::DEFAULT_ORC_IMAGE_HASH == image_sha) & (times < 15)
+    while (API::DEFAULT_ORC_IMAGE_HASH == image_sha) & (times < 5)
       logger.debug "Refetch Image Start, Now iamge_sha is: #{image_sha}"
       open(profile_path) do |f|
         page = f.read
@@ -147,8 +147,17 @@ class Character < ActiveRecord::Base
         end
       end
     rescue OpenURI::HTTPError => e
-      retry if times < 10
+      logger.debug times
       times += 1
+      retry if times < 5
+    ensure
+      if times >= 5
+        open(image_url) do |img|
+          File.open(file_path, "w") do |f|
+            f.write img.read.force_encoding("UTF-8")
+          end
+        end
+      end
     end
   end
 
