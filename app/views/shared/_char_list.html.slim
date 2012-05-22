@@ -1,6 +1,6 @@
 li
   = link_to char do
-    = image_tag char.thumbnail, size: "50x50", class: "pull-left thumb rounder"
+    = image_tag "#{char.thumbnail}?alt=/wow/static/images/2d/avatar/2-0.jpg", size: "50x50", class: "pull-left thumb rounder"
   span.pull-left.server = char.server
   strong = link_to char.name, char, class: "pull-left"
   br

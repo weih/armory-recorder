@@ -29,7 +29,7 @@ module Armory
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
     # Activate observers that should always be running.
-    # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
+    config.active_record.observers = :character_observer
     
     # config.action_controller.page_cache_directory = Rails.root + "/public/cache/"
     
