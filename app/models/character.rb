@@ -28,7 +28,7 @@ class Character < ActiveRecord::Base
       remove_sections(doc, "#header", "#footer", "#service")
       remove_js(doc)
 
-      set_profile_wrapper(doc, last_update)
+      set_profile_wrapper_and_avatar(doc, last_update)
       target_path, file_path =  make_path(last_update)
       
       final_page = fix_url(doc, last_update)
@@ -91,7 +91,7 @@ class Character < ActiveRecord::Base
     page
   end
 
-  def set_profile_wrapper(doc, last_update)
+  def set_profile_wrapper_and_avatar(doc, last_update)
     profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(doc)[1]
     image_url = profile_path.split('?')[0]
     logger.debug image_url
@@ -103,6 +103,7 @@ class Character < ActiveRecord::Base
     
     image_url += "?alt=/wow/static/images/2d/profilemain/race/2-0.jpg"
     fetch_profile_image(image_url, file_path)
+    fetch_avatar_image
   end
 
   def fetch_profile_image(profile_path, file_path)
@@ -133,6 +134,24 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def fetch_avatar_image
+    thumbnail = API::BATTLENET.character(server, name)['thumbnail']
+    image_url = "http://www.battlenet.com.cn/static-render/cn/" + thumbnail
+    file_path = "public/zh/#{thumbnail}"
+    times = 0
+
+    begin
+      open(image_url) do |img|
+        File.open(file_path, "w") do |f|
+          f.write img.read.force_encoding("UTF-8")
+        end
+      end
+    rescue OpenURI::HTTPError => e
+      retry if times < 10
+      times += 1
+    end
+  end
+
   def make_path(last_update)
     # last_update = Date.parse(last_update)
     y, m, d = last_update.year, last_update.month, last_update.day
@@ -145,7 +164,7 @@ class Character < ActiveRecord::Base
 
   def make_new_history(doc, target_path, last_update)
     histories << History.new(target_page: target_path, record_at: last_update)
-    self.thumbnail = "http://www.battlenet.com.cn/static-render/cn/" + API::BATTLENET.character(server, name)['thumbnail']
+    self.thumbnail = "/zh/" + API::BATTLENET.character(server, name)['thumbnail']
     self.race = doc.at_css(".race").text
     self.klass = doc.at_css(".class").text
     if guild = doc.at_css(".guild")
