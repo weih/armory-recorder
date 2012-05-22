@@ -35,6 +35,7 @@ gem 'chosen-rails'
 gem 'whenever', require: false
 gem 'battlenet'
 gem 'dalli'
+gem 'delayed_job_active_record'
 
 group :development, :test do
   gem 'quiet_assets', :git => 'git://github.com/AgilionApps/quiet_assets.git'
