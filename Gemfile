@@ -47,6 +47,7 @@ group :development, :test do
   gem 'pry'
   gem 'guard-spork'
   gem 'spork'
+  # gem 'time_bandits'
 end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -24,3 +24,7 @@ set :output, "#{path}/log/cron.log"
 every 1.day, :at => '7:00 am' do
   rake "fetch"
 end
+
+every 1.day, :at => '10:00 am' do
+  command "backup perform -t my_backup"
+end

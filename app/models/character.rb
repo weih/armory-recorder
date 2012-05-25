@@ -13,6 +13,10 @@ class Character < ActiveRecord::Base
   validates :name, :presence => true
   validates :server, :presence => true
 
+  def group_histories
+    histories.order("record_at").group_by{|t| "#{t.record_at.year} #{t.record_at.month}"}
+  end
+
   def fetch_armory(new_character)
     begin
       url = URI.escape("http://www.battlenet.com.cn/wow/zh/character/#{server}/#{name}/advanced")
