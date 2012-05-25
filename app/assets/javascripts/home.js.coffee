@@ -5,6 +5,8 @@
 jQuery ->
     $('#character_server').chosen()
 
+    $('.char-name').tooltip({placement: "right"})
+
     $("#new_character").submit ->
       $('#search_char').button('loading')
       # $("#search_char").val("查询中...")

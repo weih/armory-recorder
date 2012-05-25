@@ -15,4 +15,5 @@
 //= require chosen-jquery
 //= require bootstrap-collapse
 //= require bootstrap-button
+//= require bootstrap-tooltip
 //= require_tree .
