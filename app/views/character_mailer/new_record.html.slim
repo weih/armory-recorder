@@ -1,7 +1,7 @@
 html
   head
   body
-    image_tag char.thumbnail, size: "50x50"
+    = image_tag "http://wowarmory.me#{@char.thumbnail}", size: "50x50"
     p = "New Character #{@char.name} come from #{@char.server} has been recorded!"
     p = "This Character last activity at #{@char.last_update}"
     p = "Total Character: #{Character.count}"
