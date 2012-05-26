@@ -20,28 +20,27 @@ class Character < ActiveRecord::Base
   def fetch_armory(new_character)
     begin
       url = URI.escape("http://www.battlenet.com.cn/wow/zh/character/#{server}/#{name}/advanced")
-      doc = Nokogiri::HTML.parse(open(url), nil, "utf-8")
+      @doc = Nokogiri::HTML.parse(open(url), nil, "utf-8")
 
       # check last update first
-      last_update = Date.parse(doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0])
+      @last_update = Date.parse(@doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0])
       
       unless new_character
-        return [304, 'Not Modifiy'] if already_lastest?(last_update)
+        return [304, 'Not Modifiy'] if already_lastest?
       end
 
-      remove_sections(doc, "#header", "#footer", "#service")
-      remove_js(doc)
+      remove_sections("#header", "#footer", "#service")
 
-      set_profile_wrapper_and_avatar(doc, last_update)
-      target_path, file_path =  make_path(last_update)
+      set_profile_wrapper_and_avatar
+      target_path, file_path =  make_path
       
-      final_page = fix_url(doc, last_update)
+      final_page = fix_url
 
       File.open(file_path, "w") do |f|
         f.write final_page
       end
 
-      make_new_history(doc, target_path, last_update)
+      make_new_history(target_path)
 
       return [200, '角色登记成功']
 
@@ -58,50 +57,43 @@ class Character < ActiveRecord::Base
 
   private
   # 删除原页面中的导航
-  def remove_sections(doc, *sections)
+  def remove_sections(*sections)
     sections.each do |section|
-      doc.at_css(section).remove
+      @doc.at_css(section).remove
     end
+    @doc.css("script").remove
+    @doc.at_css('link').remove
   end
 
-  def remove_js(doc)
-    doc.css("script").remove
+  def already_lastest?
+    self.last_update >= @last_update
   end
 
-  def already_lastest?(last_update)
-    # last_update_from_page = Date.parse(last_update)
-    self.last_update >= last_update
-  end
-
-  def fix_url(doc, last_update)
-    doc.at_css('link').remove
-
-    doc.css('a').each do |a|
+  def fix_url
+    @doc.css('a').each do |a|
       a['href'] = "http://www.battlenet.com.cn" + a['href']
     end
 
-  # replace css url
-    doc.css('link').each do |link|
+    @doc.css('link').each do |link|
       if link['rel'] == 'stylesheet'
         link['href'] = "http://www.battlenet.com.cn" + link['href']
       end
     end
 
   # replace background image
-    page = doc.to_s.sub("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/")
-
-    page.sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(.+?)\/(\d+)/, "/zh/\\1/\\2/#{last_update.year}/#{last_update.month}/#{last_update.day}")
+    page = @doc.to_s.sub("/wow/static/images/character/summary/", "http://www.battlenet.com.cn/wow/static/images/character/summary/")
+    page.sub!(/http:\/\/www.battlenet.com.cn\/static-render\/cn\/(.+?)\/(\d+)/, "/zh/\\1/\\2/#{@last_update.year}/#{@last_update.month}/#{@last_update.day}")
 
     page
   end
 
-  def set_profile_wrapper_and_avatar(doc, last_update)
-    profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(doc)[1]
+  def set_profile_wrapper_and_avatar
+    profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(@doc)[1]
     image_url = profile_path.split('?')[0]
     logger.debug image_url
     url_array = image_url.split('/')
     profile_name = url_array.last
-    dir = "public/zh/#{url_array[5]}/#{url_array[6]}/#{last_update.year}/#{last_update.month}/#{last_update.day}/"
+    dir = "public/zh/#{url_array[5]}/#{url_array[6]}/#{@last_update.year}/#{@last_update.month}/#{@last_update.day}/"
     FileUtils.makedirs(dir)
     file_path = dir + profile_name
     
@@ -165,9 +157,8 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def make_path(last_update)
-    # last_update = Date.parse(last_update)
-    y, m, d = last_update.year, last_update.month, last_update.day
+  def make_path
+    y, m, d = @last_update.year, @last_update.month, @last_update.day
 
     FileUtils.makedirs("public/zh/#{server}/#{name}/#{y}/#{m}")
     target_path = "/zh/#{server}/#{name}/#{y}/#{m}/#{d}.html"
@@ -175,19 +166,19 @@ class Character < ActiveRecord::Base
     [target_path, "public" + target_path]
   end
 
-  def make_new_history(doc, target_path, last_update)
-    histories << History.new(target_page: target_path, record_at: last_update)
+  def make_new_history(target_path)
+    histories << History.new(target_page: target_path, record_at: @last_update)
     self.thumbnail = "/zh/" + API::BATTLENET.character(server, name)['thumbnail']
-    self.race = doc.at_css(".race").text
-    self.klass = doc.at_css(".class").text
-    if guild = doc.at_css(".guild")
+    self.race = @doc.at_css(".race").text
+    self.klass = @doc.at_css(".class").text
+    if guild = @doc.at_css(".guild")
       self.guild = guild.text.strip
     end
-    self.klass_color = doc.at_css(".under-name").attributes["class"].value.split.last
-    self.level = doc.at_css(".level").text.to_i
+    self.klass_color = @doc.at_css(".under-name").attributes["class"].value.split.last
+    self.level = @doc.at_css(".level").text.to_i
     self.leveling = false if self.level == 85
-    self.achievements = doc.at_css(".achievements").text.to_i
-    self.last_update = last_update
+    self.achievements = @doc.at_css(".achievements").text.to_i
+    self.last_update = @last_update
     save
   end
 end
