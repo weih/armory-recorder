@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class CharactersController < ApplicationController
   caches_page :show, :expires_in => 1.hours
 
@@ -14,7 +16,7 @@ class CharactersController < ApplicationController
       redirect_to character_path @char
     else
       @new_char = Character.new(params[:character])
-      res, msg = @new_char.fetch_armory(true)
+      @new_char.fetch_armory(true)
 
 #      expire_page root_path
       expire_fragment "form"
@@ -22,13 +24,14 @@ class CharactersController < ApplicationController
       expire_fragment "leveling_random"
       expire_fragment "footer"
 
-      case res
+      logger.debug @new_char.char_status
+      case @new_char.char_status
       when 200
-        redirect_to @new_char, notice: msg
+        redirect_to @new_char, notice: "角色登记成功"
       when 404
-        redirect_to root_path, alert: msg
+        redirect_to root_path, alert: "很抱歉，未找到角色您的角色，请检查您的角色名与服务器是否正确"
       when 503
-        redirect_to root_path, alert: msg
+        redirect_to root_path, alert: "很抱歉，由于该角色长期未活动，已被冻结，无法记录"
       end
     end
   end
