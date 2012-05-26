@@ -18,13 +18,11 @@ class CharactersController < ApplicationController
       @new_char = Character.new(params[:character])
       @new_char.fetch_armory(true)
 
-#      expire_page root_path
       expire_fragment "form"
       expire_fragment "new_chars"
       expire_fragment "leveling_random"
       expire_fragment "footer"
 
-      logger.debug @new_char.char_status
       case @new_char.char_status
       when 200
         redirect_to @new_char, notice: "角色登记成功"

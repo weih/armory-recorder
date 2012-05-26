@@ -4,6 +4,8 @@ require 'open-uri'
 class ArmoryScraper
   attr_accessor :thumbnail, :race, :klass, :guild, :klass_color, :level, :leveling, :achievements, :last_update, :path_for_model, :char_status
 
+  PROFILE_PATTERN = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/
+
   def initialize(char, new_character,  &block)
     @char = char
     @new_character = new_character
@@ -12,6 +14,8 @@ class ArmoryScraper
     yield self
   end
   
+  ##
+  # 从英雄榜页面中提取角色信息
   def scraping
     begin
       url = URI.escape("http://www.battlenet.com.cn/wow/zh/character/#{@char.server}/#{@char.name}/advanced")
@@ -64,6 +68,8 @@ class ArmoryScraper
     self.last_update >= @last_update
   end
 
+  ##
+  # 修复英雄榜页面HTML源代码中的引用地址
   def fix_url
     @doc.css('a').each do |a|
       a['href'] = "http://www.battlenet.com.cn" + a['href']
@@ -84,16 +90,13 @@ class ArmoryScraper
 
   ##
   # 获取角色人物造型图
-  def fetch_profile_wrapper
-    profile_path = /profile-wrapper\s{\sbackground-image:\surl\("(.*)"/.match(@doc)[1]
-    profile_wrapper_path = profile_path.split('?')[0]
+  def fetch_profile_wrapper    
+    profile_wrapper_path = PROFILE_PATTERN.match(@doc)[1].split('?')[0]
     url_array = profile_wrapper_path.split('/')
-    profile_name = url_array.last
-    dir = "public/zh/#{url_array[5]}/#{url_array[6]}/#{@last_update.year}/#{@last_update.month}/#{@last_update.day}/"
-    FileUtils.makedirs(dir)
-
-    file_path = dir + profile_name
-#    profile_wrapper_path += "?alt=/wow/static/images/2d/profilemain/race/2-0.jpg"
+    server_name_in_english, region_code, profile_name = url_array[5], url_array[6], url_array.last
+    directory = "public/zh/#{server_name_in_english}/#{region_code}/#{@last_update.year}/#{@last_update.month}/#{@last_update.day}/"
+    FileUtils.makedirs(directory)
+    file_path = directory + profile_name
 
     fetch_image(profile_wrapper_path, file_path)
   end
