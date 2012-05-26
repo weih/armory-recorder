@@ -26,5 +26,5 @@ every 1.day, :at => '7:00 am' do
 end
 
 every 1.day, :at => '10:00 am' do
-  command "backup perform -t my_backup"
+  command "backup perform -t armory_backup"
 end
