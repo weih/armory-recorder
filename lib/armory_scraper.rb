@@ -9,49 +9,52 @@ class ArmoryScraper
   def initialize(char, new_character,  &block)
     @char = char
     @new_character = new_character
-    scraping
 
-    yield self
-  end
-  
-  ##
-  # 从英雄榜页面中提取角色信息
-  def scraping
     begin
-      url = URI.escape("http://www.battlenet.com.cn/wow/zh/character/#{@char.server}/#{@char.name}/advanced")
-      @doc = Nokogiri::HTML.parse(open(url), nil, "utf-8")
-
-      # check last update first
-      @last_update = Date.parse(@doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0])
-
-      # 通过@new_character来判断该角色是不是最新登记
-      # 最新登记的角色不检查最后更新时间
-      unless @new_character
-        if already_lastest?
-          @char_status = 304
-          return
-        end
-      end
-
-      remove_sections("#header", "#footer", "#service")
-
-      fetch_profile_wrapper
-      fetch_avatar
-      fetch_page
-
-      scrap_information
-
-      @char_status = 200
+      initiliaze_doc
+      scraping
     rescue OpenURI::HTTPError => e
       if e.message.start_with?('Timeout')
         retry
       end
       @char_status = e.message.start_with?('404') ? 404 : 503
     end
+
+    options = {:char_status => @char_status, :path_for_model => @path_for_model, :last_update => @last_update}
+    block.call(@doc, options)
+  end
+  
+  ##
+  # 从英雄榜页面中提取角色信息
+  def scraping
+    # check last update first
+    @last_update = Date.parse(@doc.at_css('.summary-lastupdate').text.match(/\d{4}\/\d{2}\/\d{2}/)[0])
+
+    # 通过@new_character来判断该角色是不是最新登记
+    # 最新登记的角色不检查最后更新时间
+    unless @new_character
+      if already_lastest?
+        @char_status = 304
+        return
+      end
+    end
+
+    remove_sections("#header", "#footer", "#service")
+
+    fetch_profile_wrapper
+    fetch_avatar
+    fetch_page
+
+    @char_status = 200
   end
 
 
   private
+  def initiliaze_doc
+    url = URI.escape("http://www.battlenet.com.cn/wow/zh/character/#{@char.server}/#{@char.name}/advanced")
+    @doc = Nokogiri::HTML.parse(open(url), nil, "utf-8")
+  end
+
   ##
   # 删除原页面中不必要的部分
   def remove_sections(*sections)
@@ -139,7 +142,6 @@ class ArmoryScraper
     end
   end
 
-
   ##
   # 将角色英雄榜HTML页面写入本地文件系统
   def fetch_page
@@ -155,20 +157,4 @@ class ArmoryScraper
       f.write final_page
     end
   end
-
-  ##
-  # 保存角色信息至scraper
-  def scrap_information    
-    self.thumbnail = "/zh/" + API::BATTLENET.character(@char.server, @char.name)['thumbnail']
-    self.race = @doc.at_css(".race").text
-    self.klass = @doc.at_css(".class").text
-    if guild = @doc.at_css(".guild")
-      self.guild = guild.text.strip
-    end
-    self.klass_color = @doc.at_css(".under-name").attributes["class"].value.split.last
-    self.level = @doc.at_css(".level").text.to_i
-    self.leveling = false if self.level == 85
-    self.achievements = @doc.at_css(".achievements").text.to_i
-    self.last_update = @last_update
-   end
 end

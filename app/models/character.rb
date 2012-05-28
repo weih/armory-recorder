@@ -20,21 +20,22 @@ class Character < ActiveRecord::Base
   ##
   # 通过ArmoryScrap实例获取角色的信息
   def fetch_armory(new_character)
-    ArmoryScraper.new(self, new_character) do |scraper|
-      if (self.char_status = scraper.char_status) == 200
-        self.thumbnail = scraper.thumbnail
-        self.race = scraper.race
-        self.klass = scraper.klass
-        self.guild = scraper.guild
-        self.klass_color = scraper.klass_color
-        self.level = scraper.level
-        self.leveling = scraper.leveling
-        self.achievements = scraper.achievements
-        self.last_update = scraper.last_update
-        self.char_status = scraper.char_status
+    ArmoryScraper.new(self, new_character) do |doc, options|
+      if (self.char_status = options[:char_status]) == 200
+        self.thumbnail = "/zh/" + API::BATTLENET.character(server, name)['thumbnail']
+        self.race = doc.at_css(".race").text
+        self.klass = doc.at_css(".class").text
+        if guild = doc.at_css(".guild")
+          self.guild = guild.text.strip
+        end
+        self.klass_color = doc.at_css(".under-name").attributes["class"].value.split.last
+        self.level = doc.at_css(".level").text.to_i
+        self.leveling = false if self.level == 85
+        self.achievements = doc.at_css(".achievements").text.to_i
+        self.last_update = options[:last_update]
         save
-
-        histories << History.new(target_page: scraper.path_for_model, record_at: scraper.last_update)
+        
+        histories << History.new(target_page: options[:path_for_model], record_at: self.last_update)
       end
     end
   end
