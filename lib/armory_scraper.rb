@@ -68,7 +68,7 @@ class ArmoryScraper
   ##
   # 通过角色最后更新时间来判断是否需要更新
   def already_lastest?
-    self.last_update >= @last_update
+    @char.last_update >= @last_update
   end
 
   ##
