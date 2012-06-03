@@ -5,6 +5,6 @@ stderr_path "#{root}/log/unicorn.log"
 stdout_path "#{root}/log/unicorn.log"
 
 listen "/tmp/unicorn.armory_recorder.sock"
-worker_processes 8
+worker_processes 2
 preload_app true
 timeout 30
